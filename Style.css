@@ -1,0 +1,35 @@
+#mainTitle {
+  text-align: center;
+}
+
+#clickButton {
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.upgradebutton {
+  border-radius: 15px;
+  padding: 10px;
+}
+.improveButton {
+  border-radius: 15px;
+  padding: 10px;
+}
+
+.upgradesMenu {
+  display: inline-block;
+  position: relative;
+  top: 20px;
+  border-radius: 15px;
+  border-style: solid;
+  background-color: #669999;
+  width: 150px;
+  height: 300px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.upgradesMenu::-webkit-scrollbar {
+  display: none;
+}
