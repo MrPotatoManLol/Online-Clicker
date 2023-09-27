@@ -89,6 +89,7 @@ function Update() {
 }
 
 function giveCash() {
+  alert("Hi");
   Cash += CashPerClick;
   Update();
 }
