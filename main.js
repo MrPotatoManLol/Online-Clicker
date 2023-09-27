@@ -79,7 +79,6 @@ const giveCashButton = document.getElementById("giveCash");
 
 // Run On Start \\
 console.log("Current Version: " + VERSION);
-alert("hi");
 Update();
 
 // Functions \\
