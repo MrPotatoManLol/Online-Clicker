@@ -20,7 +20,7 @@ let Upgrades = [{
   'cost': 250,
   'bonus': 3,
   'isOwned': false,
-  'upgradeButton': "upgrade1"
+  'upgradeButton': "upgrade3"
 },
 {
   'name': 'upgrade4',
@@ -83,52 +83,52 @@ Update();
 
 // Functions \\
 function Update() {
-cashAmtVar.innerHTML = Cash.toString();
-currentImproveVar.innerHTML = CurrentImprovement.toString();
-cashPerClickAmtVar.innerHTML = CashPerClick;
+  cashAmtVar.innerHTML = Cash.toString();
+  currentImproveVar.innerHTML = CurrentImprovement.toString();
+  cashPerClickAmtVar.innerHTML = CashPerClick;
 }
 
 function giveCash() {
-Cash += CashPerClick;
-Update();
+  Cash += CashPerClick;
+  Update();
 }
 
 function upgrade(upgradeToBuy) {
-let i = 0;
-while (i <= Upgrades.length) {
-  if (Upgrades[i].name == upgradeToBuy) {
-    if (Cash >= Upgrades[i].cost) {
-      document.getElementById(Upgrades[i].upgradeButton.toString()).style.display = 'none';
-      Cash -= Upgrades[i].cost;
-      CashPerClick += Upgrades[i].bonus;
-      Upgrades[i].isOwned = true;
-      Update();
-    } else {
-      console.log("not enough cash");
+  let i = 0;
+  while (i <= Upgrades.length) {
+    if (Upgrades[i].name == upgradeToBuy) {
+      if (Cash >= Upgrades[i].cost) {
+        document.getElementById(Upgrades[i].upgradeButton.toString()).style.display = 'none';
+        Cash -= Upgrades[i].cost;
+        CashPerClick += Upgrades[i].bonus;
+        Upgrades[i].isOwned = true;
+        Update();
+      } else {
+        console.log("not enough cash");
+      }
+      break;
     }
-    break;
+    i++;
   }
-  i++;
-}
 }
 
 function improve(improvementToBuy) {
-let i = 0;
-while (i <= Improvements.length) {
-  if (Improvements[i].name == improvementToBuy) {
-    if (Cash >= Improvements[i].cost) {
-      Cash = 0;
-      document.getElementById(Improvements[i].improveButton.toString()).style.display = 'none';
-      ImproveTotalBonus += Improvements[i].bonus;
-      CashPerClick = DefaultCashPerClick + ImproveTotalBonus;
-      CurrentImprovement += 1;
-      Improvements[i].isOwned = true;
-      Update();
-    } else {
-      console.log("not enough cash");
+  let i = 0;
+  while (i <= Improvements.length) {
+    if (Improvements[i].name == improvementToBuy) {
+      if (Cash >= Improvements[i].cost) {
+        Cash = 0;
+        document.getElementById(Improvements[i].improveButton.toString()).style.display = 'none';
+        ImproveTotalBonus += Improvements[i].bonus;
+        CashPerClick = DefaultCashPerClick + ImproveTotalBonus;
+        CurrentImprovement += 1;
+        Improvements[i].isOwned = true;
+        Update();
+      } else {
+        console.log("not enough cash");
+      }
+      break;
     }
-    break;
+    i++;
   }
-  i++;
-}
 }
