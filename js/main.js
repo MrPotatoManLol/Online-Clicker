@@ -220,7 +220,7 @@ function Update() {
   cashAmtVar.innerHTML = Cash.toString();
   currentImproveVar.innerHTML = CurrentImprovement.toString();
   cashPerClickAmtVar.innerHTML = CashPerClick;
-  saveGame();
+  //saveGame();
 }
 
 function giveCash() {
@@ -268,6 +268,13 @@ function improve(improvementToBuy) {
   }
 }
 
+/**
+function loadGame() {
+  var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+  if (typeof savedGame.cash !== "undefined") Cash = savedGame.cash;
+  }
+  
+
 function saveGame() {
   var gameSave = {
     cash: Cash,
@@ -276,4 +283,4 @@ function saveGame() {
     improvements: Improvements
   }
   localStorage.setItem("gameSave", JSON.stringify(gameSave));
-}
+}*/
