@@ -96,6 +96,14 @@ function Upgrade(UpgradeType) {
 }
 
 
+// Saving & Resetting \\
+function resetGame() {
+  if (confirm("Are you sure you want to COMPLETELY RESET ALL DATA? THIS IS NOT REVERSABLE!")) {
+    var gameSave = {};
+    localStorage.setItem("gameSave", JSON.stringify(gameSave));
+    location.reload();
+  }
+}
 
 function loadGame() {
   var savedGame = JSON.parse(localStorage.getItem("gameSave"));

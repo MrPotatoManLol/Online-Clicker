@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-#clickButton {
+#miscButton {
   border-radius: 15px;
   padding: 10px;
 }
@@ -11,6 +11,7 @@
   border-radius: 15px;
   padding: 10px;
 }
+
 .improveButton {
   border-radius: 15px;
   padding: 10px;
