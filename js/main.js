@@ -1,134 +1,140 @@
-let Upgrades = [{
-  'name': 'upgrade1',
-  'type': 'regular',
-  'cost': 10,
-  'bonus': 1,
-  'isOwned': false,
-  'upgradeButton': "upgrade1"
-},
-{
-  'name': 'upgrade2',
-  'type': 'regular',
-  'cost': 100,
-  'bonus': 2,
-  'isOwned': false,
-  'upgradeButton': "upgrade2"
-},
-{
-  'name': 'upgrade3',
-  'type': 'regular',
-  'cost': 250,
-  'bonus': 3,
-  'isOwned': false,
-  'upgradeButton': "upgrade3"
-},
-{
-  'name': 'upgrade4',
-  'type': 'regular',
-  'cost': 500,
-  'bonus': 3,
-  'isOwned': false,
-  'upgradeButton': "upgrade4"
-}
-]
-let Improvements = [{
-  'name': 'improve1',
-  'cost': 1000,
-  'bonus': 1,
-  'isOwned': false,
-  'improveButton': "improve1"
-},
-{
-  'name': 'improve2',
-  'cost': 10000,
-  'bonus': 1,
-  'isOwned': false,
-  'improveButton': "improve2"
-},
-{
-  'name': 'improve3',
-  'cost': 100000,
-  'bonus': 1,
-  'isOwned': false,
-  'improveButton': "improve3"
-},
-{
-  'name': 'improve4',
-  'cost': 1000000,
-  'bonus': 1,
-  'isOwned': false,
-  'improveButton': "improve4"
-}
-]
-
 // Vars \\
 let Cash = 0;
+
 let CurrentImprovement = 0;
+let ImproveTotalBonus = 0;
+
+let CashPerSecond = 0;
+let DefaultCashPerSecond = 0;
+
 let CashPerClick = 1;
 let DefaultCashPerClick = 1;
-let ImproveTotalBonus = 0;
+
+let Upgrade1Amt = 0;
+let Upgrade2Amt = 0;
+
+
+// Default Cost Vars \\
+const DEFAULT_UPGRADE1_COST = 10;
+const DEFAULT_UPGRADE2_COST = 100;
+
+
+// Cost Vars \\
+let Upgrade1Cost = DEFAULT_UPGRADE1_COST;
+let Upgrade2Cost = DEFAULT_UPGRADE2_COST;
 
 // Misc Vars \\
 const VERSION = "Pre-Release";
 
+  
 // HTML Elements \\
 const cashAmtVar = document.getElementById("cashAmtVar");
-const currentImproveVar = document.getElementById("currentImproveVar");
 const cashPerClickAmtVar = document.getElementById("cashPerClickAmtVar");
+const currentImproveVar = document.getElementById("currentImproveVar");
+const cashPerSecVar = document.getElementById("cashPerSecVar");
+
+const Upgrade1AmtVar = document.getElementById("Upgrade1Amount");
+const Upgrade2AmtVar = document.getElementById("Upgrade2Amount");
+
 const giveCashButton = document.getElementById("giveCash");
 
+
+// Upgrade Buttons \\
+const Upgrade1Button = document.getElementById("Upgrade1Cost");
+const Upgrade2Button = document.getElementById("Upgrade2Cost");
+  
 // Run On Start \\
 console.log("Current Version: " + VERSION);
 Update();
-
+  
 // Functions \\
 function Update() {
   cashAmtVar.innerHTML = Cash.toString();
   currentImproveVar.innerHTML = CurrentImprovement.toString();
-  cashPerClickAmtVar.innerHTML = CashPerClick;
-}
+  cashPerClickAmtVar.innerHTML = CashPerClick.toString();
+  cashPerSecVar.innerHTML = CashPerSecond.toString();
+    
+  Upgrade1AmtVar.innerHTML = Upgrade1Amt.toString();
+  Upgrade2AmtVar.innerHTML = Upgrade2Amt.toString();
 
+  Upgrade1Button.innerHTML = Upgrade1Cost.toString();
+  Upgrade2Button.innerHTML = Upgrade2Cost.toString();
+}
+  
 function giveCash() {
   Cash += CashPerClick;
   Update();
 }
 
-function upgrade(upgradeToBuy) {
-  let i = 0;
-  while (i <= Upgrades.length) {
-    if (Upgrades[i].name == upgradeToBuy) {
-      if (Cash >= Upgrades[i].cost) {
-        document.getElementById(Upgrades[i].upgradeButton.toString()).style.display = 'none';
-        Cash -= Upgrades[i].cost;
-        CashPerClick += Upgrades[i].bonus;
-        Upgrades[i].isOwned = true;
+// Upgrade Functions \\
+function Upgrade(UpgradeType) {
+  switch (UpgradeType) {
+    case ("Upgrade1"):
+    	if (Cash >= Upgrade1Cost) {
+        Cash -= Upgrade1Cost;
+        CashPerClick += 1;
+        Upgrade1Cost += Math.floor(Upgrade1Cost * 0.50);
+        Upgrade1Amt += 1;
         Update();
       } else {
-        console.log("not enough cash");
+        console.log("Not enough Cash");
       }
-      break;
-    }
-    i++;
+    break;
+            
+    case ("Upgrade2"):
+      if (Cash >= Upgrade2Cost) {
+    	  Cash -= Upgrade2Cost;
+    		CashPerSecond += 1;
+        Upgrade2Cost += Math.floor(Upgrade2Cost * 0.55);
+        Upgrade2Amt += 1;
+        Update();
+      } else {
+        console.log("Not enough Cash");
+      }
+    break;
   }
 }
 
-function improve(improvementToBuy) {
-  let i = 0;
-  while (i <= Improvements.length) {
-    if (Improvements[i].name == improvementToBuy) {
-      if (Cash >= Improvements[i].cost) {
-        Cash = 0;
-        document.getElementById(Improvements[i].improveButton.toString()).style.display = 'none';
-        ImproveTotalBonus += Improvements[i].bonus;
-        CashPerClick = DefaultCashPerClick + ImproveTotalBonus;
-        CurrentImprovement += 1;
-        Improvements[i].isOwned = true;
-        Update();
-      } else {
-        console.log("not enough cash");
-      }
-      break;
-    }
-    i++;
-  }
+
+
+function loadGame() {
+  var savedGame = JSON.parse(localStorage.getItem("gameSave"));
+  if (typeof savedGame.cash !== "undefined") Cash = savedGame.cash;
+  if (typeof savedGame.cashPerClick !== "undefined") CashPerClick = savedGame.cashPerClick;
+  if (typeof savedGame.cashPerSec !== "undefined") CashPerSecond = savedGame.cashPerSec;
+  if (typeof savedGame.upgrade1Amt !== "undefined") Upgrade1Amt = savedGame.upgrade1Amt;
+  if (typeof savedGame.upgrade1Cost !== "undefined") Upgrade1Cost = savedGame.upgrade1Cost;
+  if (typeof savedGame.upgrade2Amt !== "undefined") Upgrade2Amt = savedGame.upgrade2Amt;
+  if (typeof savedGame.upgrade2Cost !== "undefined") Upgrade2Cost = savedGame.upgrade2Cost;
 }
+    
+  
+function saveGame() {
+  var gameSave = {
+    cash: Cash,
+    cashPerClick: CashPerClick,
+    cashPerSec: CashPerSecond,
+    upgrade1Amt: Upgrade1Amt,
+    upgrade1Cost: Upgrade1Cost,
+    upgrade2Amt: Upgrade2Amt,
+    upgrade2Cost: Upgrade2Cost
+  }
+  localStorage.setItem("gameSave", JSON.stringify(gameSave));
+  console.log("Saved Game");
+}
+
+window.onload = function() {
+  loadGame();
+  Update()
+}
+
+setInterval(function() {
+  saveGame();
+  console.log("Autosaved");
+}, 15000) // 15000 ms = 15 seconds
+
+setInterval(function() {
+  Cash += CashPerSecond;
+  Update();
+}, 1000) // 1000 ms = 1 second
+
